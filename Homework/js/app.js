@@ -32,7 +32,7 @@ const checkout = (number) => {
     }
     return word;
   }
-const numberToWord = (number) => {
+export const numberToWord = (number) => {
     if(number>1000 && number<1000000 && number%1000!=0){
         return checkout((number-number%1000)/1000) + " Min " + checkout(number%1000);
     }
@@ -51,16 +51,16 @@ const numberToWord = (number) => {
 }
 
 
-const Main = () => {
-    const input = document.getElementById("input-numb")
-    const button = document.querySelector(".writeBtn")
-    const number = document.querySelector(".number")
+// const Main = () => {
+//     const input = document.getElementById("input-numb")
+//     const button = document.querySelector(".writeBtn")
+//     const number = document.querySelector(".number")
 
-    button.addEventListener("click", ()=> {
-        number.innerHTML = `
-            ${numberToWord(input.value)}
-        `
-    })
-}
+//     button.addEventListener("click", ()=> {
+//         number.innerHTML = `
+//             ${numberToWord(input.value)}
+//         `
+//     })
+// }
 
-Main();
+// Main();
