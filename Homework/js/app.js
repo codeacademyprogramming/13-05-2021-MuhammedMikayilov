@@ -1,74 +1,66 @@
-const numberToWords = (number) => {
-   return check(number)
-}
+const checkout = (number) => {
+    const wordsDigit = ['Sıfır','Bir', "Iki", "Üç", "Dörd", "Beş", "Altı", "Yeddi", "Səkkiz", "Doqquz"];
+    const wordsNumbs = ['On', "Yirmi", "Otuz", "Qırx", "Əlli", "Altmış", "Yetmiş", "Səksən", "Doxsan"];
+    const hundredSystem = ["Iki", "Üç", "Dörd", "Beş", "Altı", "Yeddi", "Səkkiz", "Doqquz"]
 
-const check = (number) => {
-    let wordsDigit = ['Sıfır','Bir', "Iki", "Üç", "Dörd", "Beş", "Altı", "Yeddi", "Səkkiz", "Doqquz"];
-    let wordsNumbs = ['On', "Yirmi", "Otuz", "Qırx", "Əlli", "Altmış", "Yetmiş", "Səksən", "Doxsan"];
-    let hundred = ["Yüz"]
+    let numberToString = number.toString();
+    let numberFirstValu = numberToString[0]
+    let length = number.toString().length;
+    let word = '' ;
 
-    if(number === 0){
-        return wordsDigit[0]
+    // console.log(numberFirstValu);
+    if(numberFirstValu === "0"){
+        return "Sıfırla başlayan ədəd olmur!!!"
     }
-    if(number<=9 && number>=1){
-        return wordsDigit[number]
+
+    if(number===0){
+      word="SIFIR";
+  }
+    if(length===1 && number!==0){
+        word=wordsDigit[number];
     }
-    if (number<=99 && number>=10) {
-        if(number % 10 === 0){
-            return wordsNumbs[Number(number.toString().split('')[0]) - 1];
-        }
-        else {
-            let mode = number % 10;
-            let result = wordsNumbs[Number(number.toString().split('')[0]) - 1] + " " + wordsDigit[mode]
-            return result;
-        }
+    if(length==2){
+      word=wordsNumbs[parseInt(numberToString[0])-1] +" "+ wordsDigit[parseInt(numberToString[1])];
     }
-    if(number<=999 && number>=100) {
-        if(number % 100 === 0) {
-            let count_thousand = Number(number.toString().split('')[0])
-            if(count_thousand !== 1){
-                return wordsDigit[count_thousand] + " " + hundred[0];
-            }
-            return hundred[0]
-        }
-        else {
-            let mode = number % 100;
-            let splitted = number.toString().split('');
-            let findNums = mode % 10;
-            if(splitted[0] != 1){
-                return wordsDigit[splitted[0]] + " " 
-                    + hundred[0] + ' ' + wordsNumbs[Number(splitted[1]) - 1] + " " 
-                    + wordsDigit[findNums];
-            }
-            return  hundred[0] + ' ' + wordsNumbs[Number(splitted[1]) - 1] + " " 
-                    + wordsDigit[findNums];
-        }
+    if(length==3){
+      if(numberToString[1]=="0"){
+          word=[parseInt(numberToString[0])-1] +" Yüz " + wordsDigit[parseInt(numberToString[2])];
+      }
+      else{
+          word=hundredSystem[parseInt(numberToString[0])-2] +" Yüz "+ wordsNumbs[parseInt(numberToString[1])-1] + " "+ wordsDigit[parseInt(numberToString[2])];
+      }
     }
-    if(number > 999) {
-        return "Zəhmət olmasa maksimum 3 rəqəmli ədəd yazın..."
-    }   
-    
-    if(isNaN(number)) {
-        document.querySelector(".number").style.color = "red"
-        return "Zəhmət olmasa yalnız ədəd daxil edin!"
+    return word;
+  }
+const numberToWord = (number) => {
+    if(number>1000 && number<1000000 && number%1000!=0){
+        return checkout((number-number%1000)/1000) + " Min " + checkout(number%1000);
+    }
+    if(number>1000 && number<1000000 && number%1000==0){
+        return checkout((number-number%1000)/1000) + " Min";
+    }
+    if(number===1000){
+        return "Min";
+    }
+    if(number>1000000){
+        return "Bir milyon. Limit dolmuşdur. Zəhmət olmasa daha kiçik ədədləri yoxlayın."
     }
     else{
-        document.querySelector(".number").style.color = "black"
+        return checkout(number);
     }
-
 }
-console.log(numberToWords(9)); // Teklik
-console.log(numberToWords(25)); // Onluq
-console.log(numberToWords(739)); // Yuzluk
 
-const input = document.querySelector("#input-numb");
-const button = document.querySelector(".writeBtn");
 
-button.addEventListener("click", ()=> {
-    document.querySelector(".number").style.color = "black"
-    document.querySelector(".number").innerHTML = `${numberToWords(input.value)}`
-})
+const Main = () => {
+    const input = document.getElementById("input-numb")
+    const button = document.querySelector(".writeBtn")
+    const number = document.querySelector(".number")
 
-// 
+    button.addEventListener("click", ()=> {
+        number.innerHTML = `
+            ${numberToWord(input.value)}
+        `
+    })
+}
 
- 
+Main();
